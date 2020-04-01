@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../assets/konva.js"></script>
+    <title>Document</title>
+    <style>
+        #c {
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="c"></div>
+    <h4>How do you get the anchor to float up to the top so that the image in the middle can be transformed</h4>
+    <p>In my file, I need to place three pictures overlapping on a layer, the second of which can be transformed and dragged. I hope the anchor point of the second picture can appear on the layer without being overwritten by the third</p>
+    <script>
+        var stage = new Konva.Stage({
+            container: 'c',
+            width: 500,
+            height: 500
+        })
+        var layer = new Konva.Layer();
+        stage.add(layer);
+        // first image
+        var imageObj = new Image();
+        imageObj.src = '../image/a.png';
+        imageObj.onload = function() {
+            var yoda = new Konva.Image({
+                x: 50,
+                y: 50,
+                image: imageObj,
+            });
+            layer.add(yoda)
+            layer.batchDraw()
+            var imageData = new Image();
+            imageData.src = '../image/5.jpg';
+            imageData.onload = function() {
+                var node = new Konva.Image({
+                        x: 50,
+                        y: 50,
+                        image: imageData,
+                        draggable: true,
+                        globalCompositeOperation: 'multiply',
+                    })
+                    // image transformer
+                var tr = new Konva.Transformer({
+                    node: node,
+                });
+                layer.add(node, tr);
+                layer.batchDraw();
+                var imageBottom = new Image();
+                // imageBottom.src = '../image/a1.png';
+                imageBottom.onload = function() {
+                    var imageB = new Konva.Image({
+                        x: 50,
+                        y: 50,
+                        image: imageBottom,
+                    });
+                    layer.add(imageB)
+                };
+                layer.draw();
+            }
+        };
+        // second image
+    </script>
+</body>
+
+</html>
